@@ -1,0 +1,127 @@
+using System;
+
+namespace CaesarCipher
+{
+  class Program
+  {
+    static void Main(string[] args)
+    {
+
+Console.WriteLine("\nWrite the secret message that you would like encrypted: \n");
+string message = Console.ReadLine();
+Console.WriteLine("\nNow specify the encryption key number (1-25): \n");
+string encryptkey = Console.ReadLine();
+int key = Convert.ToInt32(encryptkey);
+//captures secret message and encryption key
+Console.WriteLine("\nYour encrypted message reads: \n");
+Encrypt(message, key);
+  
+
+  Console.WriteLine("\nWould you like to decrypt a message? \n");
+  Console.Write("Yes or No: ");
+  string answer = Console.ReadLine();
+  answer.ToLower();
+
+
+if (answer == "yes")
+{
+  Console.WriteLine("\nType in your encrypted message: \n");
+  string encryption = Console.ReadLine();
+  Console.WriteLine("\nType the original encryption key number: \n ");
+  string key2 = Console.ReadLine();
+  int key3 = Convert.ToInt32(key2);
+  Console.WriteLine("\nDecrypted message reads: \n");
+  Decrypt(encryption, key3);
+}
+else if (answer == "no")
+{
+  Console.WriteLine("\nOk. Have a nice day, you ;) ");
+}
+else 
+{
+  Console.WriteLine("\nI didn't quite catch that, but I'm tired now. Type in 'dotnet run' if you'd like another go.");
+}
+
+
+    }
+
+
+public static void Encrypt(string mssge, int key)
+{
+string message = mssge.ToLower();
+char[] secretMessage = message.ToCharArray();
+//converts string message to char array
+char[] encryptedMessage = new char[message.Length];
+// empty array for encryption
+char[] alphabet = new char[] {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
+      
+for (int i=0 ; i<message.Length ; i++)
+{
+  char letter = secretMessage[i];
+  //Accesses i^th character in secret message
+  int index = Array.IndexOf(alphabet, letter);
+  //Finds index of this character in alphabet array
+
+    if (index == -1)
+    {
+      encryptedMessage[i] = letter;
+      //punctuation and spaces not encrypted
+    }
+    else
+    {
+      int indexPluskey = (index+key)%26; 
+      //plus 3 to the index
+      encryptedMessage[i] = alphabet[indexPluskey];
+      //Stores new character in the empty array
+    }
+}
+
+String.Join("", encryptedMessage);
+//turns character array into a string
+
+Console.WriteLine(encryptedMessage);
+}
+
+
+public static void Decrypt(string mssge, int key)
+{
+
+string message = mssge.ToLower();
+char[] secretMessage = message.ToCharArray();
+//converts string message to character array
+char[] decryptedMessage = new char[message.Length];
+// creates empty array for decrypted message
+char[] alphabet = new char[] {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
+
+for (int i = 0 ; i < message.Length ; i++)
+{
+  char letter = secretMessage[i];
+  //Accesses i^th character in secret message
+  int index = Array.IndexOf(alphabet, letter);
+  //Finds index of this character in alphabet array
+
+    if (index == -1)
+    {
+      decryptedMessage[i] = letter;
+      //punctuation and spaces not encrypted
+    }
+    else
+    {
+      int indexMinuskey = (index+(26-key))%26; 
+      //minus key number from index
+      decryptedMessage[i] = alphabet[indexMinuskey];
+      //Stores new character in the empty array
+    }
+
+}
+
+String.Join("", decryptedMessage);
+//turns character array into a string
+Console.WriteLine(decryptedMessage);
+
+
+}
+
+
+  }
+}
